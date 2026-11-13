@@ -1,0 +1,14 @@
+# Secrets
+.env
+# Environment folder
+.venv
+# Data folder
+data/*
+!/data/.gitkeep
+# Cache folders
+__pycache__
+.ipynb_checkpoints
+#progress tracker
+roadmap.md
+#others
+.vscode
