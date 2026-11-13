@@ -1,0 +1,10 @@
+name: download NEMWEB file
+
+on: push
+
+jobs:                            
+  download-NEMWEB-file:                         
+    runs-on: ubuntu-latest       
+    steps:                       
+      - name: download a file in NEMWEB
+        run: python src/download_file.py
