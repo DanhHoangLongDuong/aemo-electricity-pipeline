@@ -5,5 +5,5 @@ file = requests.get(f"https://nemweb.com.au/Reports/ARCHIVE/DispatchIS_Reports/P
 if file:
     print(f"status code: {file.status_code}")
 else:
-    print(f"Error: {file.raise_for_status}")
+    print(f"Error: {file.raise_for_status()}")
     
