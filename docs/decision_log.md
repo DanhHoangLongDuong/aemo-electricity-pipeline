@@ -1,0 +1,34 @@
+## 1. Setup
+1. (2026-11-14) Use Python `3.14` on the runner
+Reason: ubuntu-latest can not use `3.14.3`, so change to `3.14`
+2. (2026-11-14) Use workflow_dispatch instead of push\
+Reason: If use push, the workflow runs everytime the project is pushed. \
+Change to workflow_dispatch for manually testing the workflow
+3. (2026-11-14) The download_file_test result: NEMWEB is reachable from GitHub Actions. 
+4. (2026-11-14) Keep the original zip, never overwrite
+## 2. Explore
+5. (2026-11-15) price_df table:
+    - `SETTLEMENTDATE`: Key, the end of the 5-minute interval
+    - `REGIONID`: Key, region
+    - `RUNNO`: Key, dispatch run number
+    - `INTERVENTION`: Key, 1 means AEMO orders to run, not market's choice. 0 means the market price\
+    Staging (4.1) keeps only `INTERVENTION = 0`, so it has one row per time and region
+    - `RRP`: Measure, regional Reference Price. Every price mart uses it
+    - `PRICE_STATUS`: Quality, to know if the RRP is firm or not.
+    - `LASTCHANGED`: Quality, to know when is the last change of the price
+    - Row key: `SETTLEMENTDATE` + `REGIONID` + `RUNNO` + `INTERVENTION`
+    - Drop columns: 
+        - `APCFLAG`, `MARKETSUSPENDEDFLAG`, `EEP`, `ROP`, `DISPATCHINTERVAL`: Out of scope/ duplicates
+        - FCAS columns: Out of scope
+6. (2026-11-15) regionsum_df table:
+    - `SETTLEMENTDATE`: Key, the end of the 5-minute interval
+    - `REGIONID`: Key, region
+    - `RUNNO`: Key, dispatch run number
+    - `INTERVENTION`: Key, 1 means AEMO orders to run, not market's choice. 0 means the market price\
+    Staging (4.1) keeps only `INTERVENTION = 0`, so it has one row per time and region
+    -  `TOTALDEMAND`: Measure, total regional operational demand to be met
+    - Row key: `SETTLEMENTDATE` + `REGIONID` + `RUNNO` + `INTERVENTION`
+    - Drop columns:
+        - `DEMANDFORECAST`, `AVAILABLEGENERATION`, `NETINTERCHANGE`: Out of scope
+        - FCAS columns: Out of scope
+7. (2026-11-15) Data types are decided in 2.2
