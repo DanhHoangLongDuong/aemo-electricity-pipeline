@@ -32,6 +32,15 @@ Change to workflow_dispatch for manually testing the workflow.
         - `DEMANDFORECAST`, `AVAILABLEGENERATION`, `NETINTERCHANGE`: Out of scope.
         - FCAS columns: Out of scope.
 7. (2026-11-15) Data types are decided in 2.2.
-8. AEMO uses UTS+10 year-round. No Daylight Saving Time.
-9. Store times in market time (UTC+10) as AEMO sends it: no DST so no ambiguity, daily marts group by the market day.
-10. `00:00` row belong to the previous day.
+8. (2026-11-15) AEMO uses UTC+10 year-round. No Daylight Saving Time.
+9. (2026-11-15) Store times in market time (UTC+10) as AEMO sends it: no DST so no ambiguity, daily marts group by the market day.
+10.(2026-11-15) `00:00` row belong to the previous day.
+## 3. BigQuery design
+11. (2026-11-16) location is 'australia-southeast1'\
+Reason: The data and the dashboard's audience are both in Australia, and all three datasets must share one location.
+12. (2026-11-16) Use SQL to create datasets.\
+Reason: Readable DDL
+13. Use NUMERIC instead of FLOAT\
+Reason: NUMERIC stores exact decimals, FLOAT can have rounding errors.
+14. DATETIME for times\
+Reason: market time, entry 9
