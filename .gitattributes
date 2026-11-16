@@ -1,0 +1,4 @@
+# Automatically detech text files and normalize to LF
+* text=auto
+
+*.sql linguist-detectable=true
