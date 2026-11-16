@@ -1,4 +1,4 @@
-SET @@location = 'australia-southeast1'
+SET @@location = 'australia-southeast1';
 
 CREATE SCHEMA IF NOT EXISTS `aemo-pipeline.raw`
     OPTIONS (

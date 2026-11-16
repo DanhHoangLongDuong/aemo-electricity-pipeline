@@ -40,3 +40,7 @@ Change to workflow_dispatch for manually testing the workflow.
 Reason: The data and the dashboard's audience are both in Australia, and all three datasets must share one location.
 12. (2026-11-16) Use SQL to create datasets.\
 Reason: Readable DDL
+13. Use NUMERIC instead of FLOAT\
+Reason: NUMERIC stores exact decimals, FLOAT can have rounding errors.
+14. DATETIME for times\
+Reason: market time, entry 9
