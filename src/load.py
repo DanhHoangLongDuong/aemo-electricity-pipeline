@@ -36,7 +36,24 @@ def convert(path, column):
     
     return table
         
-        
+
+def delete_rows(client, table_id, file_name):
+    sql=f"""
+        DELETE FROM `{table_id}`
+        WHERE source_file = @file_name;
+    """
+    
+    job_config = bigquery.QueryJobConfig(
+        query_parameters=[
+            bigquery.ScalarQueryParameter("file_name", "STRING", file_name)
+        ]
+    )
+    
+    rows = client.query_and_wait(sql, job_config=job_config)
+    
+    return rows.num_dml_affected_rows
+
+
 def load(path, column):
     project_id = os.getenv("GCP_project")
     if not project_id:
@@ -53,9 +70,12 @@ def load(path, column):
         create_disposition=bigquery.CreateDisposition.CREATE_NEVER 
     )
 
-    job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
+    delete_rows_count = delete_rows(client, table_id, Path(path).name)
     
-    return job.result()
+    job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
+    job.result()
+    
+    return delete_rows_count, job.output_rows
 
 
 
