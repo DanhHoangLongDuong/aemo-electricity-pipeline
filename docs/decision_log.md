@@ -44,3 +44,8 @@ Reason: Readable DDL
 Reason: NUMERIC stores exact decimals, FLOAT can have rounding errors.
 14. DATETIME for times\
 Reason: market time, entry 9
+## 4. Ingestion
+15. Retry only on timeout and connection errors
+16. Only do 5 attempts, 3 second pause between them, if already do 5 attempts then re-raise
+17. Skip if real file exists. Write to `.temp`, then rename
+Reason: A crash never leaves a half file under the real name
