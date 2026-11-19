@@ -50,5 +50,7 @@ Reason: market time, entry 9
 17. Only do 5 attempts, 3 second pause between them, if already do 5 attempts then re-raise
 18. Skip if real file exists. Write to `.temp`, then rename
 Reason: A crash never leaves a half file under the real name
-19. : Idempotency: Delete by `source_file`, then append.\
-The `00:00` row lands in the next day's partition, hence parition repace is not used.
+19. Idempotency: Delete by `source_file`, then append.\
+The `00:00` row lands in the next day's partition, hence partition repace is not used.
+20. `source_file`: file name only (not the path), so it is the same wherever the code runs
+21. Types converted in `load.py`, and `Decimal` for `NUMERIC`, never via `float`
