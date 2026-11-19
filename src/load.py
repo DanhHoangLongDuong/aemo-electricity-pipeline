@@ -80,4 +80,4 @@ def load(path, column):
 
 
 if __name__ == "__main__":
-    print(load("../data/raw/PUBLIC_DISPATCHIS_20261115.zip", "PRICE"))
+    print(load("../data/raw/PUBLIC_DISPATCHIS_20261115.zip", "REGIONSUM"))
