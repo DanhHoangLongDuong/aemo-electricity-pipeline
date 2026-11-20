@@ -54,3 +54,8 @@ Reason: A crash never leaves a half file under the real name
 The `00:00` row lands in the next day's partition, hence partition repace is not used.
 20. `source_file`: file name only (not the path), so it is the same wherever the code runs
 21. Types converted in `load.py`, and `Decimal` for `NUMERIC`, never via `float`
+22. newest day = market today - 2. Measured: the archive file appears about 01:00 market time, two days later
+23. "today" is computed in fixed UTC+10, so it's the same on any machine
+24. A day counts as loaded only if it's in both tables
+25. oldest first. One failed day doesn't stop the run. Exit code 1 if any day failed
+26. The 10 mar 2026 source gap: 267 of 288 intervals in AEMO's own file
