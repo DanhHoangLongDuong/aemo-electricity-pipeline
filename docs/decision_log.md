@@ -34,7 +34,7 @@ Change to workflow_dispatch for manually testing the workflow.
 7. (2026-11-15) Data types are decided in 2.2.
 8. (2026-11-15) AEMO uses UTC+10 year-round. No Daylight Saving Time.
 9. (2026-11-15) Store times in market time (UTC+10) as AEMO sends it: no DST so no ambiguity, daily marts group by the market day.
-10.(2026-11-15) `00:00` row belong to the previous day.
+10. (2026-11-15) `00:00` row belong to the previous day.
 ## 3. BigQuery design
 11. (2026-11-16) location is 'australia-southeast1'\
 Reason: The data and the dashboard's audience are both in Australia, and all three datasets must share one location.
@@ -48,7 +48,7 @@ Reason: market time, entry 9
 15. One parse engine + column dict. The zip is read once per table
 16. Retry only on timeout and connection errors
 17. Only do 5 attempts, 3 second pause between them, if already do 5 attempts then re-raise
-18. Skip if real file exists. Write to `.temp`, then rename
+18. Skip if real file exists. Write to `.temp`, then rename\
 Reason: A crash never leaves a half file under the real name
 19. Idempotency: Delete by `source_file`, then append.\
 The `00:00` row lands in the next day's partition, hence partition repace is not used.
@@ -59,3 +59,13 @@ The `00:00` row lands in the next day's partition, hence partition repace is not
 24. A day counts as loaded only if it's in both tables
 25. oldest first. One failed day doesn't stop the run. Exit code 1 if any day failed
 26. The 10 mar 2026 source gap: 267 of 288 intervals in AEMO's own file
+27. Config: 
+    - The project ID comes from the environment (.env locally, workflow variables on Actions).
+    - Everything else is in `config.py`.
+    - paths use `Path(__file__)`, so it runs from any folder.
+28. Logging: 
+    - `basicConfig` only in `main.py`. 
+    -  One line per day (rows + duration).
+    -  A summary line
+    - `logger.exception` for failures.
+    - The retry warning comes before the pause.
