@@ -1,15 +1,16 @@
 import requests
 import time
+from config import DATA_FOLDER, NEMWEB_URL, RETRY_ATTEMPT, TIMEOUT, PAUSE
 from datetime import datetime
-from pathlib import Path
+
 
 
 def download(date):
     link_date = date.strftime("%Y%m%d")
     file_name = (f"PUBLIC_DISPATCHIS_{link_date}.zip")
-    url = (f"https://nemweb.com.au/Reports/ARCHIVE/DispatchIS_Reports/{file_name}")
-    path = Path(f"../data/raw/{file_name}")
-    temp_path = Path(f"{path}.temp")
+    url = (f"{NEMWEB_URL}{file_name}")
+    path = DATA_FOLDER / file_name
+    temp_path = path.with_suffix(path.suffix + ".temp")
     
     if path.exists():
         print(f"file {file_name} already exists.")
@@ -18,12 +19,12 @@ def download(date):
         
         while True:
             try:
-                file = requests.get(url, timeout=30)
+                file = requests.get(url, timeout=TIMEOUT)
             except (requests.exceptions.Timeout, requests.exceptions.ConnectionError):
                 attempt += 1
-                if attempt == 5:
+                if attempt == RETRY_ATTEMPT:
                     raise
-                time.sleep(3)
+                time.sleep(PAUSE)
             else:     
                 file.raise_for_status()
                 break

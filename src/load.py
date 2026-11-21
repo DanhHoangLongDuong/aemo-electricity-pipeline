@@ -1,13 +1,11 @@
-import os
-from dotenv import load_dotenv
 from google.cloud import bigquery
 import pandas as pd
 from parse import parse
+from config import PROJECT_ID, BIGQUERY_DATASET
 from decimal import Decimal
 from pathlib import Path
 
 
-load_dotenv()
 
 table_name = {
     "PRICE":"price",
@@ -55,15 +53,11 @@ def delete_rows(client, table_id, file_name):
 
 
 def load(path, column):
-    project_id = os.getenv("GCP_project")
-    if not project_id:
-        raise ValueError("GCP_project is not set. Add it to .env")
-
-    client = bigquery.Client(project=project_id)
+    client = bigquery.Client(project=PROJECT_ID)
 
     df = convert(path, column)
     
-    table_id = (f"{project_id}.raw.{table_name[column]}")
+    table_id = (f"{PROJECT_ID}.{BIGQUERY_DATASET}.{table_name[column]}")
 
     job_config = bigquery.LoadJobConfig(
         write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
