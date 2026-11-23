@@ -69,3 +69,4 @@ The `00:00` row lands in the next day's partition, hence partition repace is not
     -  A summary line
     - `logger.exception` for failures.
     - The retry warning comes before the pause.
+## 5. Transformation
