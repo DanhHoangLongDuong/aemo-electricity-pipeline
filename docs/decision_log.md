@@ -70,3 +70,10 @@ The `00:00` row lands in the next day's partition, hence partition repace is not
     - `logger.exception` for failures.
     - The retry warning comes before the pause.
 ## 5. Transformation
+29. Staging = 2 views, and two of them (one per raw table)
+30. AEMO's column names kept
+31. `MARKET_DAY` = the date of the interval's start
+32. Three findings:
+    - RUNNO always 1
+    - INTERVENTION always 0
+    - time + region combinations are unique

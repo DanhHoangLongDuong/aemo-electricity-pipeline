@@ -1,4 +1,5 @@
 -- Check how many different RUNNO values exist
+-- RUNNO always 1
 SELECT RUNNO,
        COUNT(RUNNO)
 FROM `aemo-pipeline.raw.price`
@@ -9,7 +10,8 @@ SELECT RUNNO,
 FROM `aemo-pipeline.raw.region_sum`
 GROUP BY RUNNO;
 
--- Check how many different INTERVETION values exist
+-- Check how many different INTERVENTION values exist
+-- INTERVENTION always 0
 SELECT INTERVENTION,
        COUNT(INTERVENTION)
 FROM `aemo-pipeline.raw.price`
@@ -21,6 +23,7 @@ FROM `aemo-pipeline.raw.region_sum`
 GROUP BY INTERVENTION;
 
 -- Check how many SETTLEMENTDATE and REGIONID combinations exist that has more than one row
+-- no duplicates
 SELECT SETTLEMENTDATE,
        REGIONID,
        COUNT(*)
