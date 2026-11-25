@@ -70,10 +70,26 @@ The `00:00` row lands in the next day's partition, hence partition repace is not
     - `logger.exception` for failures.
     - The retry warning comes before the pause.
 ## 5. Transformation
-29. Staging = 2 views, and two of them (one per raw table)
+29. Staging = 2 views, one per raw table
 30. AEMO's column names kept
 31. `MARKET_DAY` = the date of the interval's start
 32. Three findings:
     - RUNNO always 1
     - INTERVENTION always 0
     - time + region combinations are unique
+33. Mart is a table rather than a view\
+Reason: A view re-runs the query every time Looker reads it.
+34. One mart for everything\
+Reason: Looker Studio works best with a single data source. Joining several sources inside Looker is slow.
+35. Summarise first, then full outer join\
+Reason:
+    - Summarise first: Joining raw rows matches each of a day's 288 price rows with all 288 demand rows, so every count is multiplied by 288. Summarising first means each side has exactly one row per day + region before the join.
+    - Full outer join: If one table is missing a day or region, an inner join would drop that row completely. A full outer join keeps it, with NULLs on the missing side, so the gap is visible instead of hidden.
+36. Count the RRP intervals above 300, above 5000 and below 0
+    - Above 300: $300/MWh is the industry's standard cap-contract strike price. Above it, price-spike risk becomes real money.
+    - Above 5000: This separates extreme spikes from ordinary ones.
+    - Below 0: Negative prices mean oversupply, worth tracking.
+37. Daily max `TOTALDEMAND` per region\
+Reason: Peak demand stresses the grid and drives price spikes. It shows how high demand gets in the day.
+38. The mart is rebuilt after each load\
+Reason: The table does not update itself.
