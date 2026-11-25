@@ -2,7 +2,7 @@ SET @@location = 'australia-southeast1';
 
 
 CREATE OR REPLACE TABLE `aemo-pipeline.marts.mart_daily_region` AS (
-  WITH marts_price AS (
+  WITH mart_price AS (
     SELECT MARKET_DAY,
           REGIONID,
           AVG(RRP) AS avg_rrp,
@@ -13,16 +13,14 @@ CREATE OR REPLACE TABLE `aemo-pipeline.marts.mart_daily_region` AS (
           COUNTIF(RRP < 0) AS rrp_intervals_below_0
     FROM `aemo-pipeline.staging.stg_price`
     GROUP BY MARKET_DAY, REGIONID
-    ORDER BY MARKET_DAY ASC
   ),
 
-  marts_region_sum AS (
+  mart_region_sum AS (
     SELECT MARKET_DAY,
           REGIONID,
           MAX(TOTALDEMAND) AS max_total_demand
     FROM `aemo-pipeline.staging.stg_region_sum`
     GROUP BY MARKET_DAY, REGIONID
-    ORDER BY MARKET_DAY ASC
   )
 
   SELECT COALESCE(marts_price.MARKET_DAY, marts_region_sum.MARKET_DAY) AS MARKET_DAY,
