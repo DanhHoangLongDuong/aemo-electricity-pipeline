@@ -93,3 +93,7 @@ Reason:
 Reason: Peak demand stresses the grid and drives price spikes. It shows how high demand gets in the day.
 38. The mart is rebuilt after each load\
 Reason: The table does not update itself.
+39. Hand Check: 2026-11-24, NSW1\
+Method: Read (using parse.py) and calculated the numbers in pandas, from `PUBLIC_DISPATCHIS_20261124.zip`\
+Result: `max_rrp`, `min_rrp`, `avg_rrp`, `rrp_intervals_above_300`, `rrp_intervals_above_5000`, `rrp_intervals_below_0`, `max_total_demand` all matched the mart.
+
