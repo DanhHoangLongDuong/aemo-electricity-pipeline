@@ -5,6 +5,7 @@ on:
       timezone: 'Australia/Brisbane' # Fixed UTC+10 year-round
   
   workflow_dispatch:
+  push:
 
 jobs:
   build:
