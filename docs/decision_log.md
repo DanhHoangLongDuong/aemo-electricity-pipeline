@@ -96,4 +96,8 @@ Reason: The table does not update itself.
 39. Hand Check: 2026-11-24, NSW1\
 Method: Read (using parse.py) and calculated the numbers in pandas, from `PUBLIC_DISPATCHIS_20261124.zip`\
 Result: `max_rrp`, `min_rrp`, `avg_rrp`, `rrp_intervals_above_300`, `rrp_intervals_above_5000`, `rrp_intervals_below_0`, `max_total_demand` all matched the mart.
-
+## 6. Automation
+40. run time is at 8:01AM everyday.\
+Reason: newest NEMWEB files should already be published by then.
+41. Timezone `Australia/Brisbane`\
+Reason: Use Brisbane because Brisbane is UTC+10 year-round (no DST like Sydney)
