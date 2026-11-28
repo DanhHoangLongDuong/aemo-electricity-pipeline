@@ -12,9 +12,28 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GCP_project: ${{ vars.PROJECT_ID }}
+    permissions:
+      contents: read
+      id-token: write
     steps:
-    - uses: actions/checkout@v7
-    - uses: actions/setup-python@v7
+    - name: checkout
+      uses: actions/checkout@v7
+
+    - name: install python
+      uses: actions/setup-python@v7
       with:
         python-version: '3.14'
-    - run: pip install -r requirements.txt
+
+    - name: install requirements
+      run: pip install -r requirements.txt
+
+    - name: google auth
+      uses: 'google-github-actions/auth@v3'
+      with:
+        workload_identity_provider: ${{ vars.PROVIDER_RESOURCE_NAME }}
+        service_account: ${{ vars.SERVICE_ACCOUNT_EMAIL }}
+
+    - name: connection check
+      run: python src/connection_check.py 
